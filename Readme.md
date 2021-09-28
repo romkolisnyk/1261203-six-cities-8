@@ -1,7 +1,7 @@
 # Личный проект «Шесть городов»
 
 * Студент: [Roman Kolisnyk](https://up.htmlacademy.ru/react/8/user/1261203).
-* Наставник: `Неизвестно`.
+* Наставник: [Sergey Shramko](https://shramko.dev/) ❤️.
 
 ---
 
