@@ -2,19 +2,18 @@ import { FormEvent, useState } from 'react';
 
 function ReviewForm(): JSX.Element {
   const [review, setReview] = useState('');
-  const [completedReview, setCompletedReview] = useState(false);
+  const [isCompletedReview, setIsCompletedReview] = useState(false);
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     // eslint-disable-next-line no-alert
     alert(`Your review: ${review}`);
     setReview('');
-    setCompletedReview(false);
+    setIsCompletedReview(false);
   };
   const handleReviewChange = (e: FormEvent<HTMLTextAreaElement>) => {
     setReview(e.currentTarget.value);
-
-    review.length >= 50 ? setCompletedReview(true) : setCompletedReview(false);
+    setIsCompletedReview(review.length >= 50);
   };
 
   return (
@@ -62,7 +61,7 @@ function ReviewForm(): JSX.Element {
         name="review"
         placeholder="Tell how was your stay, what you like and what can be improved"
         value={review}
-        onChange={(e) => handleReviewChange(e)}
+        onChange={handleReviewChange}
       />
       <div className="reviews__button-wrapper">
         <p className="reviews__help">
@@ -72,7 +71,7 @@ function ReviewForm(): JSX.Element {
         <button
           className="reviews__submit form__submit button"
           type="submit"
-          disabled={!completedReview}
+          disabled={!isCompletedReview}
         >
           Submit
         </button>

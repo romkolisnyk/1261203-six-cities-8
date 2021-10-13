@@ -4,7 +4,11 @@ import { Link } from 'react-router-dom';
 import { Offer } from '../../types/offer';
 import { convertRatingToPercents } from '../../utils/convertRatingToPercents';
 
-function PlaceCard(props: Offer): JSX.Element {
+type PlaceCardProps = {
+  offer: Offer,
+};
+
+function PlaceCard({ offer }: PlaceCardProps): JSX.Element {
   const {
     title,
     image,
@@ -14,17 +18,20 @@ function PlaceCard(props: Offer): JSX.Element {
     id,
     isBookmarked,
     isPremium,
-  } = props;
+  } = offer;
 
   const [activeId, setActiveId] = useState('');
   // eslint-disable-next-line no-console
   console.log(activeId);
 
+  const handleMouseEnter = () => setActiveId(id.toString());
+  const handleMouseLeave = () => setActiveId('');
+
   return (
     <article
       className="cities__place-card place-card"
-      onMouseEnter={() => setActiveId(id.toString())}
-      onMouseLeave={() => setActiveId('')}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
     >
       {
         isPremium &&
@@ -34,7 +41,7 @@ function PlaceCard(props: Offer): JSX.Element {
       }
       <div className="cities__image-wrapper place-card__image-wrapper">
         <Link to={`/offer/${id}`}>
-          <img className="place-card__image" src={image} width="260" height="200" alt="Place image" />
+          <img className="place-card__image" src={image} width="260" height="200" alt={title} />
         </Link>
       </div>
       <div className="place-card__info">
