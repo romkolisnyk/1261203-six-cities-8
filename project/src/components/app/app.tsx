@@ -30,7 +30,7 @@ function App({ offers }: AppScreenProps): JSX.Element {
           render={() => <FavoritesPage offers={offers} />}
         />
         <Route exact path={AppRoute.Offer}>
-          <PropertyPage offers={offers} />
+          <PropertyPage />
         </Route>
         <Route>
           <NotFoundPage />

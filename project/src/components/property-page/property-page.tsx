@@ -1,12 +1,7 @@
-import { Offer } from '../../types/offer';
 import Header from '../header/header';
 import ReviewForm from '../review-form/review-form';
 
-type PropertyPageProps = {
-  offers: Offer[],
-};
-
-function PropertyPage({ offers }: PropertyPageProps): JSX.Element {
+function PropertyPage(): JSX.Element {
   return (
     <div className="page">
       <Header />

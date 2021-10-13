@@ -11,15 +11,14 @@ function FavoritesCard(props: Offer): JSX.Element {
     type,
     rating,
     id,
-    isBookmarked,
   } = props;
 
   return (
     <article className="favorites__card place-card">
       <div className="favorites__image-wrapper place-card__image-wrapper">
-        <a href="#">
+        <Link to={`/offer/${id}`}>
           <img className="place-card__image" src={image} width="150" height="110" alt="Place image" />
-        </a>
+        </Link>
       </div>
       <div className="favorites__card-info place-card__info">
         <div className="place-card__price-wrapper">
@@ -27,7 +26,7 @@ function FavoritesCard(props: Offer): JSX.Element {
             <b className="place-card__price-value">&euro;{price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
-          <button className={`place-card__bookmark-button button ${isBookmarked && 'place-card__bookmark-button--active'}`} type="button">
+          <button className='place-card__bookmark-button button place-card__bookmark-button--active' type="button">
             <svg className="place-card__bookmark-icon" width="18" height="19">
               <use xlinkHref="#icon-bookmark"/>
             </svg>
@@ -36,7 +35,7 @@ function FavoritesCard(props: Offer): JSX.Element {
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{ width: `${convertRatingToPercents(rating)}%` }} />
+            <span style={{ width: `${convertRatingToPercents(rating, 5)}%` }} />
             <span className="visually-hidden">Rating</span>
           </div>
         </div>

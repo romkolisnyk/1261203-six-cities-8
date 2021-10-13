@@ -52,7 +52,7 @@ function PlaceCard(props: Offer): JSX.Element {
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{ width: `${convertRatingToPercents(rating)}%` }} />
+            <span style={{ width: `${convertRatingToPercents(rating, 5)}%` }} />
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
