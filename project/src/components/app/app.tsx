@@ -7,17 +7,18 @@ import LoginPage from '../login-page/login-page';
 import PropertyPage from '../property-page/property-page';
 import PrivateRoute from '../private-route/private-route';
 import { AppRoute, AuthorizationStatus } from '../../const';
+import { Offer } from '../../types/offer';
 
 type AppScreenProps = {
-  offersCount: number;
+  offers: Offer[];
 }
 
-function App({ offersCount }: AppScreenProps): JSX.Element {
+function App({ offers }: AppScreenProps): JSX.Element {
   return (
     <BrowserRouter>
       <Switch>
         <Route exact path={AppRoute.Root}>
-          <MainPage offersCount={offersCount} />
+          <MainPage offers={offers} />
         </Route>
         <Route exact path={AppRoute.Login}>
           <LoginPage />
@@ -25,8 +26,8 @@ function App({ offersCount }: AppScreenProps): JSX.Element {
         <PrivateRoute
           exact
           path={AppRoute.Favorites}
-          authorizationStatus={AuthorizationStatus.NoAuth}
-          render={() => <FavoritesPage />}
+          authorizationStatus={AuthorizationStatus.Auth}
+          render={() => <FavoritesPage offers={offers} />}
         />
         <Route exact path={AppRoute.Offer}>
           <PropertyPage />

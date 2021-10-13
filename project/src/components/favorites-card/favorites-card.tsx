@@ -1,14 +1,13 @@
-import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import { Offer } from '../../types/offer';
 import { convertRatingToPercents } from '../../utils/convertRatingToPercents';
 
-type PlaceCardProps = {
+type FavoritesCard = {
   offer: Offer,
 };
 
-function PlaceCard({ offer }: PlaceCardProps): JSX.Element {
+function FavoritesCard({ offer }: FavoritesCard): JSX.Element {
   const {
     title,
     image,
@@ -16,43 +15,24 @@ function PlaceCard({ offer }: PlaceCardProps): JSX.Element {
     type,
     rating,
     id,
-    isBookmarked,
-    isPremium,
   } = offer;
 
-  const [activeId, setActiveId] = useState('');
-  // eslint-disable-next-line no-console
-  console.log(activeId);
-
-  const handleMouseEnter = () => setActiveId(id.toString());
-  const handleMouseLeave = () => setActiveId('');
-
   return (
-    <article
-      className="cities__place-card place-card"
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-    >
-      {
-        isPremium &&
-        <div className="place-card__mark">
-          <span>Premium</span>
-        </div>
-      }
-      <div className="cities__image-wrapper place-card__image-wrapper">
+    <article className="favorites__card place-card">
+      <div className="favorites__image-wrapper place-card__image-wrapper">
         <Link to={`/offer/${id}`}>
-          <img className="place-card__image" src={image} width="260" height="200" alt={title} />
+          <img className="place-card__image" src={image} width="150" height="110" alt={title} />
         </Link>
       </div>
-      <div className="place-card__info">
+      <div className="favorites__card-info place-card__info">
         <div className="place-card__price-wrapper">
           <div className="place-card__price">
             <b className="place-card__price-value">&euro;{price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
-          <button className={`place-card__bookmark-button button ${isBookmarked && 'place-card__bookmark-button--active'}`} type="button">
+          <button className='place-card__bookmark-button button place-card__bookmark-button--active' type="button">
             <svg className="place-card__bookmark-icon" width="18" height="19">
-              <use xlinkHref="#icon-bookmark" />
+              <use xlinkHref="#icon-bookmark"/>
             </svg>
             <span className="visually-hidden">In bookmarks</span>
           </button>
@@ -72,4 +52,4 @@ function PlaceCard({ offer }: PlaceCardProps): JSX.Element {
   );
 }
 
-export default PlaceCard;
+export default FavoritesCard;
