@@ -26,11 +26,11 @@ function App({ offers }: AppScreenProps): JSX.Element {
         <PrivateRoute
           exact
           path={AppRoute.Favorites}
-          authorizationStatus={AuthorizationStatus.NoAuth}
-          render={() => <FavoritesPage />}
+          authorizationStatus={AuthorizationStatus.Auth}
+          render={() => <FavoritesPage offers={offers} />}
         />
         <Route exact path={AppRoute.Offer}>
-          <PropertyPage />
+          <PropertyPage offers={offers} />
         </Route>
         <Route>
           <NotFoundPage />

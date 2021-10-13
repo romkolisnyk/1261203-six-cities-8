@@ -1,10 +1,9 @@
-import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import { Offer } from '../../types/offer';
 import { convertRatingToPercents } from '../../utils/convertRatingToPercents';
 
-function PlaceCard(props: Offer): JSX.Element {
+function FavoritesCard(props: Offer): JSX.Element {
   const {
     title,
     image,
@@ -13,31 +12,16 @@ function PlaceCard(props: Offer): JSX.Element {
     rating,
     id,
     isBookmarked,
-    isPremium,
   } = props;
 
-  const [activeId, setActiveId] = useState('');
-  // eslint-disable-next-line no-console
-  console.log(activeId);
-
   return (
-    <article
-      className="cities__place-card place-card"
-      onMouseEnter={() => setActiveId(id.toString())}
-      onMouseLeave={() => setActiveId('')}
-    >
-      {
-        isPremium &&
-        <div className="place-card__mark">
-          <span>Premium</span>
-        </div>
-      }
-      <div className="cities__image-wrapper place-card__image-wrapper">
-        <Link to={`/offer/${id}`}>
-          <img className="place-card__image" src={image} width="260" height="200" alt="Place image" />
-        </Link>
+    <article className="favorites__card place-card">
+      <div className="favorites__image-wrapper place-card__image-wrapper">
+        <a href="#">
+          <img className="place-card__image" src={image} width="150" height="110" alt="Place image" />
+        </a>
       </div>
-      <div className="place-card__info">
+      <div className="favorites__card-info place-card__info">
         <div className="place-card__price-wrapper">
           <div className="place-card__price">
             <b className="place-card__price-value">&euro;{price}</b>
@@ -45,7 +29,7 @@ function PlaceCard(props: Offer): JSX.Element {
           </div>
           <button className={`place-card__bookmark-button button ${isBookmarked && 'place-card__bookmark-button--active'}`} type="button">
             <svg className="place-card__bookmark-icon" width="18" height="19">
-              <use xlinkHref="#icon-bookmark" />
+              <use xlinkHref="#icon-bookmark"/>
             </svg>
             <span className="visually-hidden">In bookmarks</span>
           </button>
@@ -65,4 +49,4 @@ function PlaceCard(props: Offer): JSX.Element {
   );
 }
 
-export default PlaceCard;
+export default FavoritesCard;
