@@ -3,11 +3,11 @@ import { Link } from 'react-router-dom';
 import { Offer } from '../../types/offer';
 import { convertRatingToPercents } from '../../utils/convertRatingToPercents';
 
-type FavoritesCard = {
+type FavoritesCardProps = {
   offer: Offer,
 };
 
-function FavoritesCard({ offer }: FavoritesCard): JSX.Element {
+function FavoritesCard({ offer }: FavoritesCardProps): JSX.Element {
   const {
     title,
     image,
