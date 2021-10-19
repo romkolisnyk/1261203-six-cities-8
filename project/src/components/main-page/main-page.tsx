@@ -1,12 +1,19 @@
+import { useState } from 'react';
+
 import { Offer } from '../../types/offer';
 import PlacesList from '../places-list/places-list';
 import Header from '../header/header';
+import Map from '../map/map';
 
 type MainPageProps = {
   offers: Offer[],
 }
 
 function MainPage({ offers }: MainPageProps): JSX.Element {
+  const [activeOfferId, setActiveOfferId] = useState(0);
+
+  const onOfferHover = (offerId: number) => setActiveOfferId(offerId);
+
   return (
     <div className="page page--gray page--main">
       <Header />
@@ -68,10 +75,17 @@ function MainPage({ offers }: MainPageProps): JSX.Element {
                   <li className="places__option" tabIndex={0}>Top rated first</li>
                 </ul>
               </form>
-              <PlacesList offers={offers} />
+              <PlacesList
+                offers={offers}
+                onOfferHover={onOfferHover}
+              />
             </section>
             <div className="cities__right-section">
-              <section className="cities__map map" />
+              <Map
+                offers={offers}
+                activeOfferId={activeOfferId}
+                city={offers[0].city}
+              />
             </div>
           </div>
         </div>
