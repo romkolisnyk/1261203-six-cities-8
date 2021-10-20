@@ -3,14 +3,14 @@ import { Link } from 'react-router-dom';
 import { Offer } from '../../types/offer';
 import { convertRatingToPercents } from '../../utils/convertRatingToPercents';
 
-type FavoritesCard = {
+type FavoritesCardProps = {
   offer: Offer,
 };
 
-function FavoritesCard({ offer }: FavoritesCard): JSX.Element {
+function FavoritesCard({ offer }: FavoritesCardProps): JSX.Element {
   const {
     title,
-    image,
+    previewImage,
     price,
     type,
     rating,
@@ -21,7 +21,7 @@ function FavoritesCard({ offer }: FavoritesCard): JSX.Element {
     <article className="favorites__card place-card">
       <div className="favorites__image-wrapper place-card__image-wrapper">
         <Link to={`/offer/${id}`}>
-          <img className="place-card__image" src={image} width="150" height="110" alt={title} />
+          <img className="place-card__image" src={previewImage} width="150" height="110" alt={title} />
         </Link>
       </div>
       <div className="favorites__card-info place-card__info">

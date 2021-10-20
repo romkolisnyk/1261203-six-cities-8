@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import { Offer } from '../../types/offer';
@@ -6,32 +5,27 @@ import { convertRatingToPercents } from '../../utils/convertRatingToPercents';
 
 type PlaceCardProps = {
   offer: Offer,
+  onOfferHover: (offerId: number) => void,
 };
 
-function PlaceCard({ offer }: PlaceCardProps): JSX.Element {
+function PlaceCard({ offer, onOfferHover }: PlaceCardProps): JSX.Element {
   const {
     title,
-    image,
+    previewImage,
     price,
     type,
     rating,
     id,
-    isBookmarked,
+    isFavorite,
     isPremium,
   } = offer;
 
-  const [activeId, setActiveId] = useState('');
-  // eslint-disable-next-line no-console
-  console.log(activeId);
-
-  const handleMouseEnter = () => setActiveId(id.toString());
-  const handleMouseLeave = () => setActiveId('');
+  const handleMouseEnter = () => onOfferHover(id);
 
   return (
     <article
       className="cities__place-card place-card"
       onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
     >
       {
         isPremium &&
@@ -41,7 +35,7 @@ function PlaceCard({ offer }: PlaceCardProps): JSX.Element {
       }
       <div className="cities__image-wrapper place-card__image-wrapper">
         <Link to={`/offer/${id}`}>
-          <img className="place-card__image" src={image} width="260" height="200" alt={title} />
+          <img className="place-card__image" src={previewImage} width="260" height="200" alt={title} />
         </Link>
       </div>
       <div className="place-card__info">
@@ -50,7 +44,7 @@ function PlaceCard({ offer }: PlaceCardProps): JSX.Element {
             <b className="place-card__price-value">&euro;{price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
-          <button className={`place-card__bookmark-button button ${isBookmarked && 'place-card__bookmark-button--active'}`} type="button">
+          <button className={`place-card__bookmark-button button ${isFavorite && 'place-card__bookmark-button--active'}`} type="button">
             <svg className="place-card__bookmark-icon" width="18" height="19">
               <use xlinkHref="#icon-bookmark" />
             </svg>
