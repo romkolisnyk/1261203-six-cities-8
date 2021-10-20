@@ -1,11 +1,10 @@
 import { useEffect, useState, MutableRefObject } from 'react';
 import { Map, TileLayer } from 'leaflet';
 import { City } from '../types/offer';
+import { MAP_LAYER, MAP_ZOOM } from '../const';
 
-type MapProps = Map | null;
-
-function useMap(mapRef: MutableRefObject<HTMLElement | null>, city: City): MapProps {
-  const [map, setMap] = useState<MapProps>(null);
+function useMap(mapRef: MutableRefObject<HTMLElement | null>, city: City): Map | null {
+  const [map, setMap] = useState<Map | null>(null);
 
   useEffect(() => {
     if (mapRef.current !== null && map === null) {
@@ -14,12 +13,10 @@ function useMap(mapRef: MutableRefObject<HTMLElement | null>, city: City): MapPr
           lat: city.location.latitude,
           lng: city.location.longitude,
         },
-        zoom: 10,
+        zoom: MAP_ZOOM,
       });
 
-      const layer = new TileLayer(
-        'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
-      );
+      const layer = new TileLayer(MAP_LAYER);
 
       instance.addLayer(layer);
 
