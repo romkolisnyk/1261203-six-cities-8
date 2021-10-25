@@ -1,15 +1,33 @@
 import { useState } from 'react';
+import { Dispatch } from 'redux';
+import { connect, ConnectedProps } from 'react-redux';
 
-import { Offer } from '../../types/offer';
 import PlacesList from '../places-list/places-list';
 import Header from '../header/header';
 import Map from '../map/map';
+import Locations from '../locations/locations';
+import { City } from '../../const';
+import { State } from '../../types/state';
+import { Actions } from '../../types/action';
+import { changeCity } from '../../store/action';
+import { cities } from '../../mocks/cities';
 
-type MainPageProps = {
-  offers: Offer[],
-}
+const mapStateToProps = ({ city, offers }: State) => ({
+  city,
+  offers,
+});
 
-function MainPage({ offers }: MainPageProps): JSX.Element {
+const mapDispatchToProps = (dispatch: Dispatch<Actions>) => ({
+  onCityChange(city: City) {
+    dispatch(changeCity(city));
+  },
+});
+
+const connector = connect(mapStateToProps, mapDispatchToProps);
+
+type PropsFromRedux = ConnectedProps<typeof connector>;
+
+function MainPage({ offers, city }: PropsFromRedux): JSX.Element {
   const [activeOfferId, setActiveOfferId] = useState(0);
 
   const onOfferHover = (offerId: number) => setActiveOfferId(offerId);
@@ -20,40 +38,7 @@ function MainPage({ offers }: MainPageProps): JSX.Element {
       <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
-          <section className="locations container">
-            <ul className="locations__list tabs__list">
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Paris</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Cologne</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Brussels</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item tabs__item--active">
-                  <span>Amsterdam</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Hamburg</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Dusseldorf</span>
-                </a>
-              </li>
-            </ul>
-          </section>
+          <Locations cities={cities} activeCity={city} />
         </div>
         <div className="cities">
           <div className="cities__places-container container">
@@ -94,4 +79,6 @@ function MainPage({ offers }: MainPageProps): JSX.Element {
   );
 }
 
-export default MainPage;
+export {MainPage};
+
+export default connector(MainPage);

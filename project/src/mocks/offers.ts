@@ -99,7 +99,7 @@ export const offers: Offer[] = [
     goods: ['Heating', 'Kitchen', 'Cable TV', 'Washing machine', 'Coffee machine', 'Dishwasher'],
     id: 4,
     images: ['img/apartment-01.jpg', 'img/2.png'],
-    isFavorite: false,
+    isFavorite: true,
     isPremium: false,
     location: {
       latitude: 52.3809553943508,
