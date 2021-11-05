@@ -1,5 +1,4 @@
-import { Offer } from './offer';
-import { City } from '../const';
+import { Offer, City } from './offer';
 
 export type State = {
   city: City,

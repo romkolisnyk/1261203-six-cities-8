@@ -1,4 +1,4 @@
-export enum City {
+export enum CityName {
   Paris = 'Paris',
   Cologne = 'Cologne',
   Brussels = 'Brussels',
@@ -12,6 +12,18 @@ export enum AppRoute {
   Favorites = '/favorites',
   Login = '/login',
   Offer = '/offer/:id',
+}
+
+export enum APIRoute {
+  GetOffers = '/hotels',
+  GetOffer = '/hotels/:id',
+  GetNearOffers = '/hotels/:hotel_id/nearby',
+  GetFavorites = '/favorite',
+  PostFavorite = '/favorite/:hotel_id/:status',
+  GetComments = '/comments/:hotel_id',
+  PostComment = '/comments/:hotel_id',
+  Login = '/login',
+  Logout = '/logout',
 }
 
 export enum AuthorizationStatus {

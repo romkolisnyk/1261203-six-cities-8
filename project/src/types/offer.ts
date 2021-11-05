@@ -1,3 +1,5 @@
+import { CityName } from '../const';
+
 export type Location = {
   latitude: number;
   longitude: number;
@@ -6,23 +8,41 @@ export type Location = {
 
 export type City = {
   location: Location,
-  name: string,
+  name: CityName,
 };
 
 export type Offer = {
-  bedrooms: number,
   city: City,
-  description: string,
-  goods: string[],
-  id: number,
+  previewImage: string,
   images: string[],
+  title: string,
   isFavorite: boolean,
   isPremium: boolean,
-  location: Location,
-  maxAdults: number,
-  previewImage: string,
-  price: number,
   rating: number,
-  title: string,
   type: string,
+  bedrooms: number,
+  maxAdults: number,
+  price: number,
+  goods: string[],
+  description: string,
+  location: Location,
+  id: number,
+};
+
+export type OfferFromServer = {
+  city: City,
+  'preview_image': string,
+  images: string[],
+  title: string,
+  'is_favorite': boolean,
+  'is_premium': boolean,
+  rating: number,
+  type: string,
+  bedrooms: number,
+  'max_adults': number,
+  price: number,
+  goods: string[],
+  description: string,
+  location: Location,
+  id: number,
 };

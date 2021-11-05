@@ -1,11 +1,17 @@
-import { offers } from '../mocks/offers';
 import { State } from '../types/state';
 import { Actions, ActionType} from '../types/action';
-import { City } from '../const';
+import { CityName } from '../const';
 
 const initialState = {
-  city: City.Amsterdam,
-  offers,
+  city: {
+    name: CityName.Paris,
+    location: {
+      latitude: 48.85661,
+      longitude: 2.351499,
+      zoom: 13,
+    },
+  },
+  offers: [],
 };
 
 export const offersReducer = (state: State = initialState, action: Actions): State => {

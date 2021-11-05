@@ -1,9 +1,9 @@
 import classnames from 'classnames';
-import { City } from '../../const';
+import { CityName } from '../../const';
 
 type LocationsProps = {
   cities: string[],
-  activeCity: City,
+  activeCity: CityName,
 }
 
 function Locations({ cities, activeCity }: LocationsProps): JSX.Element {
