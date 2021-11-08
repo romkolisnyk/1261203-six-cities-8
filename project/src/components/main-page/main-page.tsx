@@ -11,7 +11,6 @@ import PlacesSort from '../places-sort/places-sort';
 import { State } from '../../types/state';
 import { Actions } from '../../types/action';
 import { changeCity } from '../../store/action';
-import { store } from '../../store/store';
 import { City } from '../../types/offer';
 import { CityName } from '../../const';
 
@@ -46,7 +45,7 @@ function MainPage({ offers, city }: PropsFromRedux): JSX.Element {
         <div className="cities">
           <div className="cities__places-container container">
             {
-              store.getState().offers.length === 0
+              offers.length === 0
                 ?
                 <section className="cities__left-section">
                   <Spinner />
@@ -66,7 +65,7 @@ function MainPage({ offers, city }: PropsFromRedux): JSX.Element {
               <Map
                 offers={offers}
                 activeOfferId={activeOfferId}
-                city={store.getState().city}
+                city={city}
               />
             </div>
           </div>
