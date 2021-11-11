@@ -43,5 +43,4 @@ export const MAP_ICON_ANCHOR = {
   midPoint: 14,
   bottomPoint: 40,
 };
-export const MAP_ZOOM = 10;
 export const MAP_LAYER = 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png';

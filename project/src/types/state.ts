@@ -1,6 +1,7 @@
-import { Offer, City } from './offer';
+import { Offer } from './offer';
+import { CityName } from '../const';
 
 export type State = {
-  city: City,
+  currentCityName: CityName,
   offers: Offer[],
 };

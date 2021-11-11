@@ -1,14 +1,13 @@
 import React, { useEffect, useRef } from 'react';
 import leaflet from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import { Offer, City } from '../../types/offer';
+import { Offer } from '../../types/offer';
 import useMap from '../../hooks/useMap';
 import { URL_MARKER_DEFAULT, URL_MARKER_CURRENT, MAP_ICON_SIZE, MAP_ICON_ANCHOR } from '../../const';
 
 type MapProps = {
   offers: Offer[],
   activeOfferId: number,
-  city: City,
 };
 
 const defaultIcon = leaflet.icon({
@@ -23,25 +22,28 @@ const currentIcon = leaflet.icon({
   iconAnchor: [MAP_ICON_ANCHOR.midPoint, MAP_ICON_ANCHOR.bottomPoint],
 });
 
-function Map({ offers, activeOfferId, city }: MapProps): JSX.Element {
+function Map({ offers, activeOfferId }: MapProps): JSX.Element {
+  const [{ city }] = offers;
+
   const mapRef = useRef(null);
   const map = useMap(mapRef, city);
 
   useEffect(() => {
     if (map) {
-      offers.forEach((offer) => {
+      offers.forEach(({ location, id }) => {
         leaflet
           .marker(
             {
-              lat: offer.location.latitude,
-              lng: offer.location.longitude,
+              lat: location.latitude,
+              lng: location.longitude,
             },
             {
-              icon: offer.id === activeOfferId ? currentIcon : defaultIcon,
+              icon: id === activeOfferId ? currentIcon : defaultIcon,
             },
           )
           .addTo(map);
       });
+      map.flyTo([city.location.latitude, city.location.longitude], city.location.zoom);
     }
   }, [map, offers, activeOfferId]);
 
