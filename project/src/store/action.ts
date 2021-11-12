@@ -1,8 +1,8 @@
 import { ActionType } from '../types/action';
 import { Offer } from '../types/offer';
-import { City } from '../const';
+import { CityName } from '../const';
 
-export const changeCity = (cityName: City) => ({
+export const changeCity = (cityName: CityName) => ({
   type: ActionType.ChangeCity,
   payload: cityName,
 } as const);
