@@ -6,7 +6,7 @@ import FavoritesPage from '../favorites-page/favorites-page';
 import LoginPage from '../login-page/login-page';
 import PropertyPage from '../property-page/property-page';
 import PrivateRoute from '../private-route/private-route';
-import { AppRoute, AuthorizationStatus } from '../../const';
+import { AppRoute } from '../../const';
 
 function App(): JSX.Element {
   return (
@@ -21,7 +21,6 @@ function App(): JSX.Element {
         <PrivateRoute
           exact
           path={AppRoute.Favorites}
-          authorizationStatus={AuthorizationStatus.Auth}
           render={() => <FavoritesPage />}
         />
         <Route exact path={AppRoute.Offer}>

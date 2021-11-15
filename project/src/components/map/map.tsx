@@ -23,10 +23,10 @@ const currentIcon = leaflet.icon({
 });
 
 function Map({ offers, activeOfferId }: MapProps): JSX.Element {
-  const [{ city }] = offers;
+  const [firstOffer] = offers;
 
   const mapRef = useRef(null);
-  const map = useMap(mapRef, city);
+  const map = useMap(mapRef, firstOffer.city);
 
   useEffect(() => {
     if (map) {
@@ -43,7 +43,7 @@ function Map({ offers, activeOfferId }: MapProps): JSX.Element {
           )
           .addTo(map);
       });
-      map.flyTo([city.location.latitude, city.location.longitude], city.location.zoom);
+      map.flyTo([firstOffer.city.location.latitude, firstOffer.city.location.longitude], firstOffer.city.location.zoom);
     }
   }, [map, offers, activeOfferId]);
 
