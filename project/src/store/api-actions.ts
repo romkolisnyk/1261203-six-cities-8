@@ -1,5 +1,6 @@
-import {loadOffers, requireAuthorization, requireLogout} from './action';
-import {APIRoute, AuthorizationStatus} from '../const';
+import {toast} from 'react-toastify';
+import {getUserData, loadOffers, redirectToRoute, requireAuthorization, requireLogout} from './action';
+import {APIRoute, AppRoute, AuthorizationStatus} from '../const';
 import {OfferFromServer} from '../types/offer';
 import {ThunkActionResult} from '../types/action';
 import {Adapter} from '../utils/adapter';
@@ -16,11 +17,11 @@ export const fetchOffersAction = (): ThunkActionResult =>
 export const checkAuthAction = (): ThunkActionResult =>
   async (dispatch, _getState, api) => {
     try {
-      await api.get(APIRoute.Login);
+      const { data } = await api.get(APIRoute.Login);
       dispatch(requireAuthorization(AuthorizationStatus.Auth));
+      dispatch(getUserData(data));
     } catch {
-      // eslint-disable-next-line no-alert
-      alert('Please, log in');
+      toast.info('Please, log in :)');
     }
   };
 
@@ -29,6 +30,7 @@ export const loginAction = ({login: email, password}: AuthData): ThunkActionResu
     const {data: {token}} = await api.post<{token: Token}>(APIRoute.Login, {email, password});
     saveToken(token);
     dispatch(requireAuthorization(AuthorizationStatus.Auth));
+    dispatch(redirectToRoute(AppRoute.Root));
   };
 
 export const logoutAction = (): ThunkActionResult =>

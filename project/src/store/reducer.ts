@@ -6,7 +6,7 @@ const initialState = {
   currentCityName: CityName.Paris,
   offers: [],
   authorizationStatus: AuthorizationStatus.NoAuth,
-  userEmail: '',
+  userData: null,
 };
 
 export const reducer = (state: State = initialState, action: Actions): State => {
@@ -19,6 +19,8 @@ export const reducer = (state: State = initialState, action: Actions): State => 
       return {...state, authorizationStatus: action.payload};
     case ActionType.RequireLogout:
       return {...state, authorizationStatus: AuthorizationStatus.NoAuth};
+    case ActionType.GetUserData:
+      return {...state, userData: action.payload};
     default: return state;
   }
 };

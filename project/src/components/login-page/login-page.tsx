@@ -33,7 +33,6 @@ function LoginPage({currentCityName, onSubmit}: PropsFromRedux): JSX.Element {
         login: loginRef.current.value,
         password: passwordRef.current.value,
       });
-      history.push(AppRoute.Root);
     }
   };
 

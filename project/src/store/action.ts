@@ -2,8 +2,9 @@ import { ThunkDispatch } from 'redux-thunk';
 import { AxiosInstance } from 'axios';
 import { Actions, ActionType } from '../types/action';
 import { Offer } from '../types/offer';
-import { AuthorizationStatus, CityName } from '../const';
+import {AppRoute, AuthorizationStatus, CityName} from '../const';
 import { State } from '../types/state';
+import { User } from '../types/user';
 
 export const changeCity = (cityName: CityName) => ({
   type: ActionType.ChangeCity,
@@ -22,6 +23,16 @@ export const requireAuthorization = (authStatus: AuthorizationStatus) => ({
 
 export const requireLogout = () => ({
   type: ActionType.RequireLogout,
+} as const);
+
+export const redirectToRoute = (url: AppRoute) => ({
+  type: ActionType.RedirectToRoute,
+  payload: url,
+} as const);
+
+export const getUserData = (userData: User) => ({
+  type: ActionType.GetUserData,
+  payload: userData,
 } as const);
 
 export type ThunkAppDispatch = ThunkDispatch<State, AxiosInstance, Actions>;

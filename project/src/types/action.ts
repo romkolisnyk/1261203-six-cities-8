@@ -1,6 +1,13 @@
 import { ThunkAction } from 'redux-thunk';
 import { AxiosInstance } from 'axios';
-import { changeCity, loadOffers, requireAuthorization, requireLogout } from '../store/action';
+import {
+  changeCity,
+  loadOffers,
+  requireAuthorization,
+  requireLogout,
+  getUserData,
+  redirectToRoute
+} from '../store/action';
 import { State } from './state';
 
 export enum ActionType {
@@ -8,12 +15,16 @@ export enum ActionType {
   LoadOffers = 'offers/load',
   RequireAuthorization = 'user/requireAuthorization',
   RequireLogout = 'user/requireLogout',
+  RedirectToRoute = 'user/redirectToRoute',
+  GetUserData = 'user/getData',
 }
 
 export type Actions =
   | ReturnType<typeof changeCity>
   | ReturnType<typeof loadOffers>
   | ReturnType<typeof requireAuthorization>
-  | ReturnType<typeof requireLogout>;
+  | ReturnType<typeof requireLogout>
+  | ReturnType<typeof redirectToRoute>
+  | ReturnType<typeof getUserData>;
 
 export type ThunkActionResult<R = Promise<void>> = ThunkAction<R, State, AxiosInstance, Actions>;
