@@ -19,7 +19,7 @@ export const reducer = (state: State = initialState, action: Actions): State => 
       return {...state, authorizationStatus: action.payload};
     case ActionType.RequireLogout:
       return {...state, authorizationStatus: AuthorizationStatus.NoAuth};
-    case ActionType.GetUserData:
+    case ActionType.SetUserData:
       return {...state, userData: action.payload};
     default: return state;
   }

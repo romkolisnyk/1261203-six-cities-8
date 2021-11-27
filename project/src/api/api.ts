@@ -1,5 +1,5 @@
 import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
-import { getToken } from '../services/token';
+import { AUTH_TOKEN_KEY_NAME } from '../const';
 
 const BASE = 'https://8.react.pages.academy/six-cities';
 const REQUEST_TIMEOUT = 5000;
@@ -30,7 +30,7 @@ export const createAPI = (onUnauthorized: UnauthorizedCallback): AxiosInstance =
 
   api.interceptors.request.use(
     (config: AxiosRequestConfig) => {
-      const token = getToken();
+      const token = localStorage.getItem(AUTH_TOKEN_KEY_NAME);
 
       if (token) {
         config.headers['x-token'] = token;
@@ -38,6 +38,7 @@ export const createAPI = (onUnauthorized: UnauthorizedCallback): AxiosInstance =
 
       return config;
     },
+    (error: AxiosError) => Promise.reject(error),
   );
 
   return api;

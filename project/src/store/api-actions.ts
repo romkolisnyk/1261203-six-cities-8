@@ -1,11 +1,11 @@
 import {toast} from 'react-toastify';
-import {getUserData, loadOffers, redirectToRoute, requireAuthorization, requireLogout} from './action';
-import {APIRoute, AppRoute, AuthorizationStatus} from '../const';
+import {AxiosError} from 'axios';
+import {setUserData, loadOffers, redirectToRoute, requireAuthorization, requireLogout} from './action';
+import {APIRoute, AppRoute, AuthorizationStatus, AUTH_TOKEN_KEY_NAME} from '../const';
 import {OfferFromServer} from '../types/offer';
 import {ThunkActionResult} from '../types/action';
 import {Adapter} from '../utils/adapter';
 import {AuthData} from '../types/auth-data';
-import {removeToken, saveToken, Token} from '../services/token';
 
 export const fetchOffersAction = (): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
@@ -17,25 +17,35 @@ export const fetchOffersAction = (): ThunkActionResult =>
 export const checkAuthAction = (): ThunkActionResult =>
   async (dispatch, _getState, api) => {
     try {
-      const { data } = await api.get(APIRoute.Login);
+      const response = await api.get(APIRoute.Login);
       dispatch(requireAuthorization(AuthorizationStatus.Auth));
-      dispatch(getUserData(data));
-    } catch {
-      toast.info('Please, log in :)');
+      dispatch(setUserData(Adapter.userDataToClient(response.data)));
+    } catch(error) {
+      if ((error as AxiosError).response) {
+        toast.info((error as AxiosError).response?.data.error);
+      } else {
+        toast.info((error as Error).message);
+      }
     }
   };
 
 export const loginAction = ({login: email, password}: AuthData): ThunkActionResult =>
   async (dispatch, _getState, api) => {
-    const {data: {token}} = await api.post<{token: Token}>(APIRoute.Login, {email, password});
-    saveToken(token);
-    dispatch(requireAuthorization(AuthorizationStatus.Auth));
-    dispatch(redirectToRoute(AppRoute.Root));
+    try {
+      const {data: {token}} = await api.post<{token: string}>(APIRoute.Login, {email, password});
+      localStorage.setItem(AUTH_TOKEN_KEY_NAME, token);
+      dispatch(requireAuthorization(AuthorizationStatus.Auth));
+      const response = await api.get(APIRoute.Login);
+      dispatch(redirectToRoute(AppRoute.Root));
+      dispatch(setUserData(Adapter.userDataToClient(response.data)));
+    } catch (error) {
+      toast.info((error as Error).message);
+    }
   };
 
 export const logoutAction = (): ThunkActionResult =>
   async (dispatch, _getState, api) => {
     await api.delete(APIRoute.Logout);
-    removeToken();
+    localStorage.removeItem(AUTH_TOKEN_KEY_NAME);
     dispatch(requireLogout());
   };

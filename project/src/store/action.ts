@@ -2,7 +2,7 @@ import { ThunkDispatch } from 'redux-thunk';
 import { AxiosInstance } from 'axios';
 import { Actions, ActionType } from '../types/action';
 import { Offer } from '../types/offer';
-import {AppRoute, AuthorizationStatus, CityName} from '../const';
+import { AppRoute, AuthorizationStatus, CityName } from '../const';
 import { State } from '../types/state';
 import { User } from '../types/user';
 
@@ -30,8 +30,8 @@ export const redirectToRoute = (url: AppRoute) => ({
   payload: url,
 } as const);
 
-export const getUserData = (userData: User) => ({
-  type: ActionType.GetUserData,
+export const setUserData = (userData: User) => ({
+  type: ActionType.SetUserData,
   payload: userData,
 } as const);
 
