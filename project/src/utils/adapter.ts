@@ -1,4 +1,5 @@
 import { Offer, OfferFromServer } from '../types/offer';
+import { User, UserFromServer } from '../types/user';
 
 export class Adapter {
   static offerToClient(offer: OfferFromServer): Offer {
@@ -18,6 +19,16 @@ export class Adapter {
       description: offer['description'],
       location: offer['location'],
       id: offer['id'],
+    };
+  }
+
+  static userDataToClient(userData: UserFromServer): User {
+    return {
+      id: userData['id'],
+      email: userData['email'],
+      name: userData['name'],
+      avatarUrl: userData['avatar_url'],
+      isPro: userData['is_pro'],
     };
   }
 }

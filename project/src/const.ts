@@ -29,7 +29,6 @@ export enum APIRoute {
 export enum AuthorizationStatus {
   Auth = 'AUTH',
   NoAuth = 'NOAUTH',
-  Unknown = 'UNKNOWN',
 }
 
 export const URL_MARKER_DEFAULT = 'img/pin.svg';
@@ -44,3 +43,5 @@ export const MAP_ICON_ANCHOR = {
   bottomPoint: 40,
 };
 export const MAP_LAYER = 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png';
+
+export const AUTH_TOKEN_KEY_NAME = 'six-cities-token';
