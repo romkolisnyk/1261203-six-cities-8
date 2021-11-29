@@ -1,8 +1,8 @@
 import {toast} from 'react-toastify';
 import {AxiosError} from 'axios';
-import {setUserData, loadOffers, redirectToRoute, requireAuthorization, requireLogout} from './action';
+import {setUserData, loadOffers, redirectToRoute, requireAuthorization, requireLogout, loadOffer} from './action';
 import {APIRoute, AppRoute, AuthorizationStatus, AUTH_TOKEN_KEY_NAME} from '../const';
-import {OfferFromServer} from '../types/offer';
+import {Offer, OfferFromServer} from '../types/offer';
 import {ThunkActionResult} from '../types/action';
 import {Adapter} from '../utils/adapter';
 import {AuthData} from '../types/auth-data';
@@ -12,6 +12,13 @@ export const fetchOffersAction = (): ThunkActionResult =>
     const { data } = await api.get(APIRoute.GetOffers);
     const offers = data.map((offer: OfferFromServer) => Adapter.offerToClient(offer));
     dispatch(loadOffers(offers));
+  };
+
+export const fetchOfferAction = (id: Offer['id']): ThunkActionResult =>
+  async (dispatch, _getState, api): Promise<void> => {
+    const { data } = await api.get(`/hotels/${id}`);
+    const offer = Adapter.offerToClient(data);
+    dispatch(loadOffer(offer));
   };
 
 export const checkAuthAction = (): ThunkActionResult =>

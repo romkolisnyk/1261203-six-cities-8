@@ -5,6 +5,7 @@ import {AuthorizationStatus, CityName} from '../const';
 const initialState = {
   currentCityName: CityName.Paris,
   offers: [],
+  offer: null,
   authorizationStatus: AuthorizationStatus.NoAuth,
   userData: null,
 };
@@ -15,6 +16,8 @@ export const reducer = (state: State = initialState, action: Actions): State => 
       return {...state, currentCityName: action.payload};
     case ActionType.LoadOffers:
       return {...state, offers: action.payload};
+    case ActionType.LoadOffer:
+      return {...state, offer: action.payload};
     case ActionType.RequireAuthorization:
       return {...state, authorizationStatus: action.payload};
     case ActionType.RequireLogout:

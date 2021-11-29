@@ -5,6 +5,7 @@ import { User } from './user';
 export type State = {
   currentCityName: CityName,
   offers: Offer[],
+  offer: Offer | null,
   authorizationStatus: AuthorizationStatus,
   userData: User | null,
 };

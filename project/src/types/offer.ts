@@ -11,6 +11,20 @@ export type City = {
   name: CityName,
 };
 
+export type Host = {
+  id: number,
+  name: string,
+  isPro: boolean,
+  avatarUrl: string,
+};
+
+export type HostFromServer = {
+  id: number,
+  name: string,
+  'is_pro': boolean,
+  'avatar_url': string,
+};
+
 export type Offer = {
   city: City,
   previewImage: string,
@@ -27,6 +41,7 @@ export type Offer = {
   description: string,
   location: Location,
   id: number,
+  host: Host,
 };
 
 export type OfferFromServer = {
@@ -45,4 +60,5 @@ export type OfferFromServer = {
   description: string,
   location: Location,
   id: number,
+  host: HostFromServer,
 };

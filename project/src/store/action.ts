@@ -16,6 +16,11 @@ export const loadOffers = (offers: Offer[]) => ({
   payload: offers,
 } as const);
 
+export const loadOffer = (offer: Offer) => ({
+  type: ActionType.LoadOffer,
+  payload: offer,
+} as const);
+
 export const requireAuthorization = (authStatus: AuthorizationStatus) => ({
   type: ActionType.RequireAuthorization,
   payload: authStatus,

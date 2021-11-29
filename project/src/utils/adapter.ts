@@ -19,6 +19,12 @@ export class Adapter {
       description: offer['description'],
       location: offer['location'],
       id: offer['id'],
+      host: {
+        id: offer.host['id'],
+        name: offer.host['name'],
+        isPro: offer.host['is_pro'],
+        avatarUrl: offer.host['avatar_url'],
+      },
     };
   }
 
