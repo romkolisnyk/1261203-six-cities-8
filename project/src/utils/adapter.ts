@@ -1,5 +1,6 @@
 import { Offer, OfferFromServer } from '../types/offer';
 import { User, UserFromServer } from '../types/user';
+import { Comment, CommentFromServer } from '../types/comment';
 
 export class Adapter {
   static offerToClient(offer: OfferFromServer): Offer {
@@ -35,6 +36,21 @@ export class Adapter {
       name: userData['name'],
       avatarUrl: userData['avatar_url'],
       isPro: userData['is_pro'],
+    };
+  }
+
+  static offerCommentToClient(comment: CommentFromServer): Comment {
+    return {
+      id: comment['id'],
+      user: {
+        id: comment.user['id'],
+        name: comment.user['name'],
+        isPro: comment.user['is_pro'],
+        avatarUrl: comment.user['avatar_url'],
+      },
+      rating: comment['rating'],
+      comment: comment['comment'],
+      date: comment['date'],
     };
   }
 }

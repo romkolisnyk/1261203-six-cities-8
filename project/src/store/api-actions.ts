@@ -1,11 +1,21 @@
 import {toast} from 'react-toastify';
 import {AxiosError} from 'axios';
-import {setUserData, loadOffers, redirectToRoute, requireAuthorization, requireLogout, loadOffer} from './action';
+import {
+  setUserData,
+  loadOffers,
+  redirectToRoute,
+  requireAuthorization,
+  requireLogout,
+  loadCurrentOffer,
+  loadCurrentOfferComments,
+  loadOffersNearby
+} from './action';
 import {APIRoute, AppRoute, AuthorizationStatus, AUTH_TOKEN_KEY_NAME} from '../const';
 import {Offer, OfferFromServer} from '../types/offer';
 import {ThunkActionResult} from '../types/action';
 import {Adapter} from '../utils/adapter';
 import {AuthData} from '../types/auth-data';
+import {CommentFromServer} from '../types/comment';
 
 export const fetchOffersAction = (): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
@@ -14,11 +24,29 @@ export const fetchOffersAction = (): ThunkActionResult =>
     dispatch(loadOffers(offers));
   };
 
-export const fetchOfferAction = (id: Offer['id']): ThunkActionResult =>
+export const fetchCurrentOfferAction = (id: Offer['id']): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
-    const { data } = await api.get(`/hotels/${id}`);
-    const offer = Adapter.offerToClient(data);
-    dispatch(loadOffer(offer));
+    try {
+      const { data } = await api.get(`/hotels/${id}`);
+      const offer = Adapter.offerToClient(data);
+      dispatch(loadCurrentOffer(offer));
+    } catch {
+      dispatch(redirectToRoute(AppRoute.NotFound));
+    }
+  };
+
+export const fetchCurrentOfferCommentsAction = (id: Offer['id']): ThunkActionResult =>
+  async (dispatch, _getState, api): Promise<void> => {
+    const { data } = await api.get(`/comments/${id}`);
+    const comments = data.map((comment: CommentFromServer) => Adapter.offerCommentToClient(comment));
+    dispatch(loadCurrentOfferComments(comments));
+  };
+
+export const fetchOffersNearbyAction = (id: Offer['id']): ThunkActionResult =>
+  async (dispatch, _getState, api): Promise<void> => {
+    const { data } = await api.get(`/hotels/${id}/nearby`);
+    const offers = data.map((offer: OfferFromServer) => Adapter.offerToClient(offer));
+    dispatch(loadOffersNearby(offers));
   };
 
 export const checkAuthAction = (): ThunkActionResult =>

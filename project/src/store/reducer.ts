@@ -5,9 +5,11 @@ import {AuthorizationStatus, CityName} from '../const';
 const initialState = {
   currentCityName: CityName.Paris,
   offers: [],
-  offer: null,
   authorizationStatus: AuthorizationStatus.NoAuth,
   userData: null,
+  currentOffer: null,
+  currentOfferComments: [],
+  offersNearby: [],
 };
 
 export const reducer = (state: State = initialState, action: Actions): State => {
@@ -16,14 +18,18 @@ export const reducer = (state: State = initialState, action: Actions): State => 
       return {...state, currentCityName: action.payload};
     case ActionType.LoadOffers:
       return {...state, offers: action.payload};
-    case ActionType.LoadOffer:
-      return {...state, offer: action.payload};
     case ActionType.RequireAuthorization:
       return {...state, authorizationStatus: action.payload};
     case ActionType.RequireLogout:
       return {...state, authorizationStatus: AuthorizationStatus.NoAuth};
     case ActionType.SetUserData:
       return {...state, userData: action.payload};
+    case ActionType.LoadCurrentOffer:
+      return {...state, currentOffer: action.payload};
+    case ActionType.LoadCurrentOfferComments:
+      return {...state, currentOfferComments: action.payload};
+    case ActionType.LoadOffersNearby:
+      return {...state, offersNearby: action.payload};
     default: return state;
   }
 };
