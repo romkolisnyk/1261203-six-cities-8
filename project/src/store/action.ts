@@ -51,4 +51,9 @@ export const loadOffersNearby = (offers: Offer[]) => ({
   payload: offers,
 } as const);
 
+export const offerLoading = (state: boolean) => ({
+  type: ActionType.OfferLoading,
+  payload: state,
+} as const);
+
 export type ThunkAppDispatch = ThunkDispatch<State, AxiosInstance, Actions>;

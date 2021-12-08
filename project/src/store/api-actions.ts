@@ -8,7 +8,7 @@ import {
   requireLogout,
   loadCurrentOffer,
   loadCurrentOfferComments,
-  loadOffersNearby
+  loadOffersNearby, offerLoading
 } from './action';
 import {APIRoute, AppRoute, AuthorizationStatus, AUTH_TOKEN_KEY_NAME} from '../const';
 import {Offer, OfferFromServer} from '../types/offer';
@@ -27,9 +27,11 @@ export const fetchOffersAction = (): ThunkActionResult =>
 export const fetchCurrentOfferAction = (id: Offer['id']): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
     try {
+      dispatch(offerLoading(true));
       const { data } = await api.get(`/hotels/${id}`);
       const offer = Adapter.offerToClient(data);
       dispatch(loadCurrentOffer(offer));
+      dispatch(offerLoading(false));
     } catch {
       dispatch(redirectToRoute(AppRoute.NotFound));
     }

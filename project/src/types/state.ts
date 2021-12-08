@@ -11,4 +11,5 @@ export type State = {
   currentOffer: Offer | null,
   currentOfferComments: Comment[],
   offersNearby: Offer[],
+  offerLoading: boolean,
 };
