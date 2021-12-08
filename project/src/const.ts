@@ -46,3 +46,11 @@ export const MAP_ICON_ANCHOR = {
 export const MAP_LAYER = 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png';
 
 export const AUTH_TOKEN_KEY_NAME = 'six-cities-token';
+
+export const RATINGS = {
+  1: 'terribly',
+  2: 'badly',
+  3: 'not bad',
+  4: 'good',
+  5: 'perfect',
+};

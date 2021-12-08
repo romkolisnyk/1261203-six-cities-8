@@ -15,3 +15,8 @@ export type Comment = {
   comment: string,
   date: string
 };
+
+export type CommentPost = {
+  comment: string,
+  rating: number,
+};

@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { connect, ConnectedProps, useDispatch } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import {Link, useParams} from 'react-router-dom';
 import classnames from 'classnames';
 import {
   fetchCurrentOfferAction,
@@ -148,9 +148,9 @@ function PropertyPage({offer, comments, offersNearby, authorizationStatus}: Prop
               {offersNearby.map((offerNearby) => (
                 <article className="near-places__card place-card" key={offerNearby.id}>
                   <div className="near-places__image-wrapper place-card__image-wrapper">
-                    <a href="#">
+                    <Link to={`/offer/${offerNearby.id}`}>
                       <img className="place-card__image" src={offerNearby.previewImage} width="260" height="200" alt="Place image" />
-                    </a>
+                    </Link>
                   </div>
                   <div className="place-card__info">
                     <div className="place-card__price-wrapper">
@@ -158,11 +158,18 @@ function PropertyPage({offer, comments, offersNearby, authorizationStatus}: Prop
                         <b className="place-card__price-value">&euro;{offerNearby.price}</b>
                         <span className="place-card__price-text">&#47;&nbsp;night</span>
                       </div>
-                      <button className="place-card__bookmark-button place-card__bookmark-button--active button" type="button">
+                      <button
+                        className={classnames('place-card__bookmark-button button', {
+                          'property__bookmark-button--active': offerNearby.isFavorite,
+                        })}
+                        type="button"
+                      >
                         <svg className="place-card__bookmark-icon" width="18" height="19">
                           <use xlinkHref="#icon-bookmark" />
                         </svg>
-                        <span className="visually-hidden">In bookmarks</span>
+                        <span className="visually-hidden">
+                          {offerNearby.isFavorite ? 'In bookmarks' : 'To bookmarks'}
+                        </span>
                       </button>
                     </div>
                     <div className="place-card__rating rating">
@@ -172,7 +179,7 @@ function PropertyPage({offer, comments, offersNearby, authorizationStatus}: Prop
                       </div>
                     </div>
                     <h2 className="place-card__name">
-                      <a href="#">{offerNearby.title}</a>
+                      <Link to={`/offer/${offerNearby.id}`}>{offerNearby.title}</Link>
                     </h2>
                     <p className="place-card__type">{offerNearby.type}</p>
                   </div>

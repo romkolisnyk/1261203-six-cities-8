@@ -15,7 +15,7 @@ import {Offer, OfferFromServer} from '../types/offer';
 import {ThunkActionResult} from '../types/action';
 import {Adapter} from '../utils/adapter';
 import {AuthData} from '../types/auth-data';
-import {CommentFromServer} from '../types/comment';
+import {CommentFromServer, CommentPost} from '../types/comment';
 
 export const fetchOffersAction = (): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
@@ -83,4 +83,10 @@ export const logoutAction = (): ThunkActionResult =>
     await api.delete(APIRoute.Logout);
     localStorage.removeItem(AUTH_TOKEN_KEY_NAME);
     dispatch(requireLogout());
+  };
+
+export const postCommentAction = (comment: CommentPost, id: Offer['id']): ThunkActionResult =>
+  async (dispatch, _getState, api) => {
+    await api.post(`/comments/${id}`, comment)
+      .then(() => dispatch(fetchCurrentOfferCommentsAction(id)));
   };

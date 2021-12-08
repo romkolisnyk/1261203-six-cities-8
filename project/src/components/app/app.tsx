@@ -8,10 +8,12 @@ import PropertyPage from '../property-page/property-page';
 import PrivateRoute from '../private-route/private-route';
 import { AppRoute } from '../../const';
 import browserHistory from '../../browser-history';
+import ScrollToTop from '../scroll-to-top/scroll-to-top';
 
 function App(): JSX.Element {
   return (
     <BrowserRouter history={browserHistory}>
+      <ScrollToTop />
       <Switch>
         <Route exact path={AppRoute.Root}>
           <MainPage />
