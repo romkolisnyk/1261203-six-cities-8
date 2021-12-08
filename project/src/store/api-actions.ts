@@ -8,7 +8,8 @@ import {
   requireLogout,
   loadCurrentOffer,
   loadCurrentOfferComments,
-  loadOffersNearby, offerLoading
+  loadOffersNearby,
+  offerLoading
 } from './action';
 import {APIRoute, AppRoute, AuthorizationStatus, AUTH_TOKEN_KEY_NAME} from '../const';
 import {Offer, OfferFromServer} from '../types/offer';
@@ -89,6 +90,9 @@ export const logoutAction = (): ThunkActionResult =>
 
 export const postCommentAction = (comment: CommentPost, id: Offer['id']): ThunkActionResult =>
   async (dispatch, _getState, api) => {
-    await api.post(`/comments/${id}`, comment)
-      .then(() => dispatch(fetchCurrentOfferCommentsAction(id)));
+    try {
+      await api.post(`/comments/${id}`, comment).then(() => dispatch(fetchCurrentOfferCommentsAction(id)));
+    } catch (error) {
+      toast.info((error as Error).message);
+    }
   };
