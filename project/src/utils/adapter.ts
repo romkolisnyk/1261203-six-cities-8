@@ -5,24 +5,13 @@ import { Comment, CommentFromServer } from '../types/comment';
 export class Adapter {
   static offerToClient(offer: OfferFromServer): Offer {
     return {
-      city: offer['city'],
+      ...offer,
       previewImage: offer['preview_image'],
-      images: offer['images'],
-      title: offer['title'],
       isFavorite: offer['is_favorite'],
       isPremium: offer['is_premium'],
-      rating: offer['rating'],
-      type: offer['type'],
-      bedrooms: offer['bedrooms'],
       maxAdults: offer['max_adults'],
-      price: offer['price'],
-      goods: offer['goods'],
-      description: offer['description'],
-      location: offer['location'],
-      id: offer['id'],
       host: {
-        id: offer.host['id'],
-        name: offer.host['name'],
+        ...offer.host,
         isPro: offer.host['is_pro'],
         avatarUrl: offer.host['avatar_url'],
       },
@@ -31,9 +20,7 @@ export class Adapter {
 
   static userDataToClient(userData: UserFromServer): User {
     return {
-      id: userData['id'],
-      email: userData['email'],
-      name: userData['name'],
+      ...userData,
       avatarUrl: userData['avatar_url'],
       isPro: userData['is_pro'],
     };
@@ -41,16 +28,12 @@ export class Adapter {
 
   static offerCommentToClient(comment: CommentFromServer): Comment {
     return {
-      id: comment['id'],
+      ...comment,
       user: {
-        id: comment.user['id'],
-        name: comment.user['name'],
+        ...comment.user,
         isPro: comment.user['is_pro'],
         avatarUrl: comment.user['avatar_url'],
       },
-      rating: comment['rating'],
-      comment: comment['comment'],
-      date: comment['date'],
     };
   }
 }
