@@ -91,7 +91,8 @@ export const logoutAction = (): ThunkActionResult =>
 export const postCommentAction = (comment: CommentPost, id: Offer['id']): ThunkActionResult =>
   async (dispatch, _getState, api) => {
     try {
-      await api.post(`/comments/${id}`, comment).then(() => dispatch(fetchCurrentOfferCommentsAction(id)));
+      await api.post(`/comments/${id}`, comment);
+      await dispatch(fetchCurrentOfferCommentsAction(id));
     } catch (error) {
       toast.info((error as Error).message);
     }

@@ -17,12 +17,6 @@ export enum AppRoute {
 
 export enum APIRoute {
   GetOffers = '/hotels',
-  GetOffer = '/hotels/:id',
-  GetNearOffers = '/hotels/:hotel_id/nearby',
-  GetFavorites = '/favorite',
-  PostFavorite = '/favorite/:hotel_id/:status',
-  GetComments = '/comments/:hotel_id',
-  PostComment = '/comments/:hotel_id',
   Login = '/login',
   Logout = '/logout',
 }
@@ -47,10 +41,25 @@ export const MAP_LAYER = 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/
 
 export const AUTH_TOKEN_KEY_NAME = 'six-cities-token';
 
-export const RATINGS = {
-  1: 'terribly',
-  2: 'badly',
-  3: 'not bad',
-  4: 'good',
-  5: 'perfect',
-};
+export const Ratings = [
+  {
+    title: 'perfect',
+    value: 5,
+  },
+  {
+    title: 'good',
+    value: 4,
+  },
+  {
+    title: 'not bad',
+    value: 3,
+  },
+  {
+    title: 'badly',
+    value: 2,
+  },
+  {
+    title: 'terribly',
+    value: 1,
+  },
+];

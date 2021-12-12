@@ -31,9 +31,9 @@ function PropertyPage({offer, comments, offersNearby, authorizationStatus, offer
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchCurrentOfferAction(Number(id)));
-    dispatch(fetchCurrentOfferCommentsAction(Number(id)));
-    dispatch(fetchOffersNearbyAction(Number(id)));
+    dispatch(fetchCurrentOfferAction(parseInt(id, 10)));
+    dispatch(fetchCurrentOfferCommentsAction(parseInt(id, 10)));
+    dispatch(fetchOffersNearbyAction(parseInt(id, 10)));
   }, [dispatch, id]);
 
   return (

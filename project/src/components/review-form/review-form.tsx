@@ -1,8 +1,8 @@
-import { ChangeEvent, FormEvent, Fragment, useState } from 'react';
+import {ChangeEvent, FormEvent, Fragment, useEffect, useState} from 'react';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { postCommentAction } from '../../store/api-actions';
-import { RATINGS } from '../../const';
+import { Ratings } from '../../const';
 
 function ReviewForm(): JSX.Element {
   const [review, setReview] = useState({comment: '', rating: 0});
@@ -12,28 +12,39 @@ function ReviewForm(): JSX.Element {
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    dispatch(postCommentAction(review, Number(id)));
+    dispatch(postCommentAction(review, parseInt(id, 10)));
     setReview({comment: '', rating: 0});
     setIsCompletedReview(false);
   };
 
   const handleReviewChange = (e: FormEvent<HTMLTextAreaElement>) => {
     // TODO: Add debounce
-    setReview({comment: e.currentTarget.value, rating: review.rating});
-    setIsCompletedReview(review.comment.length >= 50);
+    setReview({...review, comment: e.currentTarget.value});
   };
 
   const handleRatingChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setReview({comment: review.comment, rating: Number(e.target.value)});
+    setReview({...review, rating: parseInt(e.target.value, 10)});
   };
+
+  useEffect(() => {
+    setIsCompletedReview(review.comment.length >= 50 && review.rating !== 0);
+  }, [review]);
 
   return (
     <form className="reviews__form form" onSubmit={handleSubmit}>
       <label className="reviews__label form__label" htmlFor="review">Your review</label>
-      <div className="reviews__rating-form form__rating" onChange={handleRatingChange}>
-        {Object.entries(RATINGS).reverse().map(([value, title]) => (
-          <Fragment key={value}>
-            <input className="form__rating-input visually-hidden" name="rating" value={value} id={`${value}-stars`} type="radio"/>
+      <div className="reviews__rating-form form__rating">
+        {Ratings.map(({title, value}) => (
+          <Fragment key={title}>
+            <input
+              className="form__rating-input visually-hidden"
+              name="rating"
+              value={value}
+              id={`${value}-stars`}
+              type="radio"
+              checked={review.rating === value}
+              onChange={handleRatingChange}
+            />
             <label htmlFor={`${value}-stars`} className="reviews__rating-label form__rating-label" title={title}>
               <svg className="form__star-image" width="37" height="33">
                 <use xlinkHref="#icon-star" />

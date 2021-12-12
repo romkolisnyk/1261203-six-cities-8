@@ -30,7 +30,7 @@ function App(): JSX.Element {
         <Route path={AppRoute.NotFound}>
           <NotFoundPage />
         </Route>
-        <Redirect to="/404" />
+        <Redirect to={AppRoute.NotFound} />
       </Switch>
     </BrowserRouter>
   );
