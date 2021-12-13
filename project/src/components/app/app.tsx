@@ -1,4 +1,4 @@
-import { Router as BrowserRouter, Route, Switch } from 'react-router-dom';
+import { Router as BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 
 import MainPage from '../main-page/main-page';
 import NotFoundPage from '../not-found-page/not-found-page';
@@ -27,9 +27,10 @@ function App(): JSX.Element {
         <Route exact path={AppRoute.Offer}>
           <PropertyPage />
         </Route>
-        <Route>
+        <Route path={AppRoute.NotFound}>
           <NotFoundPage />
         </Route>
+        <Redirect to={AppRoute.NotFound} />
       </Switch>
     </BrowserRouter>
   );

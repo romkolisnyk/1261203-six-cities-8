@@ -1,17 +1,55 @@
 import {toast} from 'react-toastify';
 import {AxiosError} from 'axios';
-import {setUserData, loadOffers, redirectToRoute, requireAuthorization, requireLogout} from './action';
+import {
+  setUserData,
+  loadOffers,
+  redirectToRoute,
+  requireAuthorization,
+  requireLogout,
+  loadCurrentOffer,
+  loadCurrentOfferComments,
+  loadOffersNearby,
+  offerLoading
+} from './action';
 import {APIRoute, AppRoute, AuthorizationStatus, AUTH_TOKEN_KEY_NAME} from '../const';
-import {OfferFromServer} from '../types/offer';
+import {Offer, OfferFromServer} from '../types/offer';
 import {ThunkActionResult} from '../types/action';
 import {Adapter} from '../utils/adapter';
 import {AuthData} from '../types/auth-data';
+import {CommentFromServer, CommentPost} from '../types/comment';
 
 export const fetchOffersAction = (): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
     const { data } = await api.get(APIRoute.GetOffers);
     const offers = data.map((offer: OfferFromServer) => Adapter.offerToClient(offer));
     dispatch(loadOffers(offers));
+  };
+
+export const fetchCurrentOfferAction = (id: Offer['id']): ThunkActionResult =>
+  async (dispatch, _getState, api): Promise<void> => {
+    try {
+      dispatch(offerLoading(true));
+      const { data } = await api.get(`/hotels/${id}`);
+      const offer = Adapter.offerToClient(data);
+      dispatch(loadCurrentOffer(offer));
+      dispatch(offerLoading(false));
+    } catch {
+      dispatch(redirectToRoute(AppRoute.NotFound));
+    }
+  };
+
+export const fetchCurrentOfferCommentsAction = (id: Offer['id']): ThunkActionResult =>
+  async (dispatch, _getState, api): Promise<void> => {
+    const { data } = await api.get(`/comments/${id}`);
+    const comments = data.map((comment: CommentFromServer) => Adapter.offerCommentToClient(comment));
+    dispatch(loadCurrentOfferComments(comments));
+  };
+
+export const fetchOffersNearbyAction = (id: Offer['id']): ThunkActionResult =>
+  async (dispatch, _getState, api): Promise<void> => {
+    const { data } = await api.get(`/hotels/${id}/nearby`);
+    const offers = data.map((offer: OfferFromServer) => Adapter.offerToClient(offer));
+    dispatch(loadOffersNearby(offers));
   };
 
 export const checkAuthAction = (): ThunkActionResult =>
@@ -48,4 +86,14 @@ export const logoutAction = (): ThunkActionResult =>
     await api.delete(APIRoute.Logout);
     localStorage.removeItem(AUTH_TOKEN_KEY_NAME);
     dispatch(requireLogout());
+  };
+
+export const postCommentAction = (comment: CommentPost, id: Offer['id']): ThunkActionResult =>
+  async (dispatch, _getState, api) => {
+    try {
+      await api.post(`/comments/${id}`, comment);
+      await dispatch(fetchCurrentOfferCommentsAction(id));
+    } catch (error) {
+      toast.info((error as Error).message);
+    }
   };

@@ -5,6 +5,7 @@ import { Offer } from '../types/offer';
 import { AppRoute, AuthorizationStatus, CityName } from '../const';
 import { State } from '../types/state';
 import { User } from '../types/user';
+import { Comment } from '../types/comment';
 
 export const changeCity = (cityName: CityName) => ({
   type: ActionType.ChangeCity,
@@ -33,6 +34,26 @@ export const redirectToRoute = (url: AppRoute) => ({
 export const setUserData = (userData: User) => ({
   type: ActionType.SetUserData,
   payload: userData,
+} as const);
+
+export const loadCurrentOffer = (offer: Offer) => ({
+  type: ActionType.LoadCurrentOffer,
+  payload: offer,
+} as const);
+
+export const loadCurrentOfferComments = (comments: Comment[]) => ({
+  type: ActionType.LoadCurrentOfferComments,
+  payload: comments,
+} as const);
+
+export const loadOffersNearby = (offers: Offer[]) => ({
+  type: ActionType.LoadOffersNearby,
+  payload: offers,
+} as const);
+
+export const offerLoading = (state: boolean) => ({
+  type: ActionType.OfferLoading,
+  payload: state,
 } as const);
 
 export type ThunkAppDispatch = ThunkDispatch<State, AxiosInstance, Actions>;

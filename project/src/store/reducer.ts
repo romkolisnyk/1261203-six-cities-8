@@ -7,6 +7,10 @@ const initialState = {
   offers: [],
   authorizationStatus: AuthorizationStatus.NoAuth,
   userData: null,
+  currentOffer: null,
+  currentOfferComments: [],
+  offersNearby: [],
+  offerLoading: true,
 };
 
 export const reducer = (state: State = initialState, action: Actions): State => {
@@ -21,6 +25,14 @@ export const reducer = (state: State = initialState, action: Actions): State => 
       return {...state, authorizationStatus: AuthorizationStatus.NoAuth};
     case ActionType.SetUserData:
       return {...state, userData: action.payload};
+    case ActionType.LoadCurrentOffer:
+      return {...state, currentOffer: action.payload};
+    case ActionType.LoadCurrentOfferComments:
+      return {...state, currentOfferComments: action.payload};
+    case ActionType.LoadOffersNearby:
+      return {...state, offersNearby: action.payload};
+    case ActionType.OfferLoading:
+      return {...state, offerLoading: action.payload};
     default: return state;
   }
 };
