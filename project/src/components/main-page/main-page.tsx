@@ -47,12 +47,14 @@ function MainPage({ offers, currentCityName }: PropsFromRedux): JSX.Element {
                     <PlacesList
                       offers={offers}
                       onOfferHover={onOfferHover}
+                      className="cities__places-list"
                     />
                   </section>
                   <div className="cities__right-section">
                     <Map
                       offers={offers}
                       activeOfferId={activeOfferId}
+                      className="cities__map"
                     />
                   </div>
                 </>

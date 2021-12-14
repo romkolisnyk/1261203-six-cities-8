@@ -1,6 +1,6 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { connect, ConnectedProps, useDispatch } from 'react-redux';
-import {Link, useParams} from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import classnames from 'classnames';
 import {
   fetchCurrentOfferAction,
@@ -13,6 +13,8 @@ import { AuthorizationStatus } from '../../const';
 import Header from '../header/header';
 import ReviewForm from '../review-form/review-form';
 import Spinner from '../spinner/spinner';
+import Map from '../map/map';
+import PlacesList from '../places-list/places-list';
 
 const mapStateToProps = ({ currentOffer, currentOfferComments, offersNearby, authorizationStatus, offerLoading }: State) => ({
   offer: currentOffer,
@@ -29,6 +31,9 @@ type PropsFromRedux = ConnectedProps<typeof connector>;
 function PropertyPage({offer, comments, offersNearby, authorizationStatus, offerLoading}: PropsFromRedux): JSX.Element {
   const {id} = useParams<{id: string}>();
   const dispatch = useDispatch();
+  const [activeOfferId, setActiveOfferId] = useState(0);
+
+  const onOfferHover = (offerId: number) => setActiveOfferId(offerId);
 
   useEffect(() => {
     dispatch(fetchCurrentOfferAction(parseInt(id, 10)));
@@ -144,53 +149,23 @@ function PropertyPage({offer, comments, offersNearby, authorizationStatus, offer
                     </section>
                   </div>
                 </div>
-                <section className="property__map map" />
+                {
+                  offersNearby.length &&
+                  <Map
+                    offers={offersNearby}
+                    activeOfferId={activeOfferId}
+                    className="property__map"
+                  />
+                }
               </section>
               <div className="container">
                 <section className="near-places places">
                   <h2 className="near-places__title">Other places in the neighbourhood</h2>
-                  <div className="near-places__list places__list">
-                    {offersNearby.map((offerNearby) => (
-                      <article className="near-places__card place-card" key={offerNearby.id}>
-                        <div className="near-places__image-wrapper place-card__image-wrapper">
-                          <Link to={`/offer/${offerNearby.id}`}>
-                            <img className="place-card__image" src={offerNearby.previewImage} width="260" height="200" alt="Place image" />
-                          </Link>
-                        </div>
-                        <div className="place-card__info">
-                          <div className="place-card__price-wrapper">
-                            <div className="place-card__price">
-                              <b className="place-card__price-value">&euro;{offerNearby.price}</b>
-                              <span className="place-card__price-text">&#47;&nbsp;night</span>
-                            </div>
-                            <button
-                              className={classnames('place-card__bookmark-button button', {
-                                'property__bookmark-button--active': offerNearby.isFavorite,
-                              })}
-                              type="button"
-                            >
-                              <svg className="place-card__bookmark-icon" width="18" height="19">
-                                <use xlinkHref="#icon-bookmark" />
-                              </svg>
-                              <span className="visually-hidden">
-                                {offerNearby.isFavorite ? 'In bookmarks' : 'To bookmarks'}
-                              </span>
-                            </button>
-                          </div>
-                          <div className="place-card__rating rating">
-                            <div className="place-card__stars rating__stars">
-                              <span style={{ width: '80%' }} />
-                              <span className="visually-hidden">Rating</span>
-                            </div>
-                          </div>
-                          <h2 className="place-card__name">
-                            <Link to={`/offer/${offerNearby.id}`}>{offerNearby.title}</Link>
-                          </h2>
-                          <p className="place-card__type">{offerNearby.type}</p>
-                        </div>
-                      </article>
-                    ))}
-                  </div>
+                  <PlacesList
+                    offers={offersNearby}
+                    onOfferHover={onOfferHover}
+                    className="near-places__list"
+                  />
                 </section>
               </div>
             </>
