@@ -1,14 +1,16 @@
+import classnames from 'classnames';
 import { Offer } from '../../types/offer';
 import PlaceCard from '../place-card/place-card';
 
 type PlacesListProps = {
   offers: Offer[],
   onOfferHover: (offerId: number) => void,
+  className?: string,
 };
 
-function PlacesList({ offers, onOfferHover }: PlacesListProps): JSX.Element {
+function PlacesList({ offers, onOfferHover, className }: PlacesListProps): JSX.Element {
   return (
-    <div className="cities__places-list places__list tabs__content">
+    <div className={classnames('places__list tabs__content', className)}>
       {offers.map((offer) => (
         <PlaceCard
           offer={offer}
